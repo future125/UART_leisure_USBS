@@ -1,0 +1,47 @@
+{
+    // VS Code 构建任务。
+    // Cortex-Debug 的三个 launch 配置都会在 F5 调试前调用 "build task"。
+    //
+    // 这里使用 CubeMX 生成的 Makefile，通过 mingw32-make 进行编译。
+    // 如果 mingw32-make 已经加入系统 PATH，保持当前写法即可；
+    // 如果没有加入 PATH，可以把 command 改成 mingw32-make.exe 的绝对路径。
+
+    "version": "2.0.0",
+
+    "tasks": [
+        {
+            "label": "build task",
+
+            // shell 任务：在终端中执行 mingw32-make。
+            "type": "shell",
+
+            "command": "mingw32-make",
+
+            // 并行编译线程数。
+            // 可以根据电脑 CPU 核心数调整，例如 -j8、-j12、-j16。
+            //
+            // 第二个参数 SHELL=cmd.exe 不是给编译器看的，是给 make 看的：
+            // 本机 PATH 里有 Git 自带的 sh.exe，而工程路径 C:\Users\fu  ff\... 含空格，
+            // make 一旦选 sh.exe 执行命令，路径会在空格处被截断而编译失败。
+            // 显式指定用 cmd.exe 执行命令，可以彻底避开这个坑。
+            "args": [
+                "-j12",
+                "SHELL=cmd.exe"
+            ],
+
+            // 确保 Makefile 从工程根目录执行。
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+
+            // 当前先不额外解析 GCC 输出，直接在终端查看编译日志。
+            "problemMatcher": [],
+
+            // 将该任务设为默认 Build Task，可用 Ctrl + Shift + B 直接编译。
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

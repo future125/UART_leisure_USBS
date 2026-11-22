@@ -1,0 +1,28 @@
+{
+    // 给 VSCode 的 C/C++ 插件（IntelliSense）看的配置：
+    // 让它知道去哪里找头文件、用哪个编译器和哪种宏，编辑器里才不会一片红波浪线。
+    // 这份配置只影响“写代码时的提示”，不影响实际编译（编译参数在 Makefile 里）。
+    "configurations": [
+        {
+            "name": "STM32F407",
+            "includePath": [
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/bsp",
+                "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Include"
+            ],
+            // 这两个宏必须和 Makefile 里的 C_DEFS 保持一致，否则 HAL 头文件会走错分支
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F407xx"
+            ],
+            "compilerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/14.3 rel1/bin/arm-none-eabi-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}
